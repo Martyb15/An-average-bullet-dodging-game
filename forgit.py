@@ -424,14 +424,7 @@ secos = 1
 # clicked = pygame.mouse.get_pressed() 
 
 bullet_group.add(bullet)
-bullet_group.add(bullet2)
-bullet_group.add(bullet3)
-bullet_group.add(bullet4)
-bullet_group.add(bullet5)
-bullet_group.add(bullet6)
-bullet_group.add(bullet7)
-bullet_group.add(bullet8)
-bullet_group.add(bullet9)
+
 while running:
 
     if hit > secos:
@@ -544,12 +537,16 @@ while running:
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
        
     elif bullets == 2:
+        bullet_group.add(bullet2)
+
         bullet.move(screen)
         bullet2.move(screen)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
         bullet2.rect = bullet.image.get_rect(topleft = (bullet2.x,  bullet2.y))
 
     elif bullets == 3:
+        bullet_group.add(bullet3)
+
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -558,6 +555,8 @@ while running:
         bullet3.rect = bullet3.image.get_rect(topleft = (bullet3.x,  bullet3.y))
 
     elif bullets == 4:
+        bullet_group.add(bullet4)
+
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -568,6 +567,8 @@ while running:
         bullet4.rect = bullet4.image.get_rect(topleft = (bullet4.x,  bullet4.y))
         
     elif bullets == 5:
+        bullet_group.add(bullet5)
+
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -580,6 +581,8 @@ while running:
         bullet5.rect = bullet5.image.get_rect(topleft = (bullet5.x, bullet5.y))
   
     elif bullets == 6:
+        bullet_group.add(bullet6)
+
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -593,6 +596,8 @@ while running:
         bullet5.rect = bullet5.image.get_rect(topleft = (bullet5.x, bullet5.y))
         bullet6.rect = bullet6.image.get_rect(topleft = (bullet6.x, bullet6.y))
     elif bullets == 7:
+        bullet_group.add(bullet7)
+
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -608,6 +613,8 @@ while running:
         bullet6.rect = bullet6.image.get_rect(topleft = (bullet6.x, bullet6.y))
         bullet7.rect = bullet7.image.get_rect(topleft = (bullet7.x,  bullet7.y))
     elif bullets == 8:
+        bullet_group.add(bullet8)
+
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -625,6 +632,7 @@ while running:
         bullet7.rect = bullet7.image.get_rect(topleft = (bullet7.x,  bullet7.y))
         bullet8.rect = bullet8.image.get_rect(topleft = (bullet8.x,  bullet8.y))
     elif bullets == 9:
+        bullet_group.add(bullet9)
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
