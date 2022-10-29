@@ -258,7 +258,7 @@ class Bullet(pygame.sprite.Sprite):
         self.type = type
         self.direction = 0
         self.rect = self.image.get_rect()
-        self.speed = 12
+        self.speed = 6
     #-----
     # def is_collided_with(self, sprite):
     #     return self.rect.colliderect(sprite.rect)
