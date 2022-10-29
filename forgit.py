@@ -119,7 +119,7 @@ class Triangle(pygame.sprite.Sprite):
 class Start(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.img = pygame.image.load('start.png')
+        self.img = pygame.image.load('/bar/start.png')
         self.size = self.img.get_size()
         self.image = pygame.transform.scale(self.img,(int(self.size[0]* .7), int(self.size[1]*.7)))
         self.show = True
