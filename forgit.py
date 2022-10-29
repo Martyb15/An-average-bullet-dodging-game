@@ -95,12 +95,20 @@ class Triangle(pygame.sprite.Sprite):
         dist = 5
         if key[pygame.K_DOWN] or key[pygame.K_s] and self.y < HEIGHT-32: # down key
             self.y += dist # move down
-        elif key[pygame.K_UP] or key[pygame.K_w] and self.y > 0: # up key
+        else:
+            self.y =self.y 
+        if key[pygame.K_UP] or key[pygame.K_w] and self.y > 0: # up key
             self.y -= dist # move up
+        else:
+            self.y=self.y
         if key[pygame.K_RIGHT] or key[pygame.K_d] and self.x < HEIGHT-32: # right key
             self.x += dist # move right
-        elif key[pygame.K_LEFT] or key[pygame.K_a] and self.x > 0: # left key
+        else:
+            self.x=self.x
+        if key[pygame.K_LEFT] or key[pygame.K_a] and self.x > 0: # left key
             self.x -= dist # move left
+        else:
+            self.x=self.x
            
     def draw(self, surface):
         self.rect = self.image.get_rect()
@@ -413,14 +421,7 @@ start = Start()
 bullet_group = pygame.sprite.Group()
 
 secos = 1
-#==========================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#==========================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#==========================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#==========================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#==========================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#==========================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#==========================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#==========================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 # clicked = pygame.mouse.get_pressed() 
 
 bullet_group.add(bullet)
@@ -479,7 +480,7 @@ while running:
         LIVES = 3
         bullets = 1
         hit = -1
-        player.ya = 256
+        player.y = 256
         player.x = 256
     # print(secos)
         pygame.display.update()
