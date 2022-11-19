@@ -426,6 +426,7 @@ secos = 1
 
 bullet_group.add(bullet)
 
+
 while running:
 
     if hit > secos:
@@ -538,8 +539,9 @@ while running:
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
        
     elif bullets == 2:
+        
         bullet_group.add(bullet2)
-
+        bullet2.orientation()
         bullet.move(screen)
         bullet2.move(screen)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
@@ -547,7 +549,6 @@ while running:
 
     elif bullets == 3:
         bullet_group.add(bullet3)
-
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -557,7 +558,6 @@ while running:
 
     elif bullets == 4:
         bullet_group.add(bullet4)
-
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -569,7 +569,6 @@ while running:
         
     elif bullets == 5:
         bullet_group.add(bullet5)
-
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -583,7 +582,6 @@ while running:
   
     elif bullets == 6:
         bullet_group.add(bullet6)
-
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -598,7 +596,6 @@ while running:
         bullet6.rect = bullet6.image.get_rect(topleft = (bullet6.x, bullet6.y))
     elif bullets == 7:
         bullet_group.add(bullet7)
-
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
@@ -615,7 +612,6 @@ while running:
         bullet7.rect = bullet7.image.get_rect(topleft = (bullet7.x,  bullet7.y))
     elif bullets == 8:
         bullet_group.add(bullet8)
-
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
