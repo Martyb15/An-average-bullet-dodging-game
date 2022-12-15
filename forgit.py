@@ -2,6 +2,7 @@
 import os, pygame, pygame.mixer, random, time
 from turtle import speed
 from pygame.locals import *
+import math
 
 #Variables
 black = (0,0,0)
@@ -30,10 +31,11 @@ pygame.display.set_caption('Pygame - A Random Bullet Dodging Game')
 
 
 clock = pygame.time.Clock()
-fps_limit = 90
+fps_limit = 60
 
 img_path = os.path.join('player.png')
 img_path2 = os.path.join('bullet.png')
+img_path3 = os.path.join('Rocket.png')
 
 animation_bar = []
 baran1 = os.path.join('./bar/bar1.png')
@@ -68,17 +70,10 @@ animation_bar.append(baran13)
 animation_bar.append(baran14)
 
 
-class Rocket(pygame.sprite.Sprite):
-    def __init__(self):
-        self.speed = 5
-        self.lock = True
-        self.locck_time = 3
-        
-
-
 #Creating the sprites
 
 class Triangle(pygame.sprite.Sprite):
+    active_player = None
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         # self.image = pygame.image.load(img_path)
@@ -88,6 +83,7 @@ class Triangle(pygame.sprite.Sprite):
         self.y = 256
         self.name = "PLAYER"
         self.rect = self.image.get_rect(topleft = (self.x,self.y))
+        Triangle.active_player = self
 
     def keys(self):
         key = pygame.key.get_pressed()
@@ -385,7 +381,35 @@ def bullets_amount(sec):
         return 9
     else: return 1
 
+class Rocket(Bullet):
+    def __init__(self):
+        super().__init__(3)
+        self.rspeed = 3
+        self.name = "ROCKET"
+        self.image = pygame.image.load(img_path3)
+        self.rect = self.image.get_rect()
     
+    def orientation(self, surface):
+         pass
+    
+    def move(self, surface):
+        dir_x = Triangle.active_player.x - self.x
+        dir_y = Triangle.active_player.y - self.y
+        dir = pygame.math.Vector2(dir_x, dir_y)
+        dir = dir.normalize()
+        self.x += self.rspeed * dir.x
+        self.y += self.rspeed * dir.y
+        self.rect.x = self.x
+        self.rect.y = self.y
+        print(self.rect.x,self.rect.y)
+
+    def draw(self, surface):
+        self.rect = self.image.get_rect()
+        surface.blit(self.image, (self.x, self.y))
+
+    def reset_image_orientation(self):
+        self.image = pygame.transform.rotate(self.image, 0 - self.direction)
+
 
 pygame.init()
 type = random.randint(1,4)
@@ -409,6 +433,8 @@ bullet8 = Bullet(type)
 
 bullet9 = Bullet(type)
 
+rocket = Rocket()
+
 
 life1 = Lives()
 life2 = Lives()
@@ -425,6 +451,7 @@ secos = 1
 # clicked = pygame.mouse.get_pressed() 
 
 bullet_group.add(bullet)
+bullet_group.add(rocket)
 
 
 while running:
@@ -536,25 +563,33 @@ while running:
 
     if bullets < 2:
         bullet.move(screen)
+        rocket.move(screen)
+        print(rocket.rect)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
+        #rocket.rect = rocket.image.get_rect(topleft = (rocket.x,  rocket.y))
        
     elif bullets == 2:
         
         bullet_group.add(bullet2)
-        bullet2.orientation()
         bullet.move(screen)
         bullet2.move(screen)
+        rocket.move(screen)
+        print(rocket.rect)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
         bullet2.rect = bullet.image.get_rect(topleft = (bullet2.x,  bullet2.y))
+        #rocket.rect = rocket.image.get_rect(topleft = (rocket.x,  rocket.y))
 
     elif bullets == 3:
         bullet_group.add(bullet3)
         bullet.move(screen)
         bullet2.move(screen)
         bullet3.move(screen)
+        rocket.move(screen)
+        print(rocket.rect)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
         bullet2.rect = bullet.image.get_rect(topleft = (bullet2.x,  bullet2.y))
         bullet3.rect = bullet3.image.get_rect(topleft = (bullet3.x,  bullet3.y))
+        #rocket.rect = rocket.image.get_rect(topleft = (rocket.x,  rocket.y))
 
     elif bullets == 4:
         bullet_group.add(bullet4)
@@ -562,10 +597,12 @@ while running:
         bullet2.move(screen)
         bullet3.move(screen)
         bullet4.move(screen)
+        rocket.move(screen)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
         bullet2.rect = bullet.image.get_rect(topleft = (bullet2.x,  bullet2.y))
         bullet3.rect = bullet3.image.get_rect(topleft = (bullet3.x,  bullet3.y))
         bullet4.rect = bullet4.image.get_rect(topleft = (bullet4.x,  bullet4.y))
+        #rocket.rect = rocket.image.get_rect(topleft = (rocket.x,  rocket.y))
         
     elif bullets == 5:
         bullet_group.add(bullet5)
@@ -574,11 +611,13 @@ while running:
         bullet3.move(screen)
         bullet4.move(screen)
         bullet5.move(screen)
+        rocket.move(screen)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
         bullet2.rect = bullet.image.get_rect(topleft = (bullet2.x,  bullet2.y))
         bullet3.rect = bullet3.image.get_rect(topleft = (bullet3.x,  bullet3.y))
         bullet4.rect = bullet4.image.get_rect(topleft = (bullet4.x,  bullet4.y))
         bullet5.rect = bullet5.image.get_rect(topleft = (bullet5.x, bullet5.y))
+        #rocket.rect = rocket.image.get_rect(topleft = (rocket.x,  rocket.y))
   
     elif bullets == 6:
         bullet_group.add(bullet6)
@@ -588,12 +627,14 @@ while running:
         bullet4.move(screen)
         bullet5.move(screen)
         bullet6.move(screen)
+        rocket.move(screen)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
         bullet2.rect = bullet.image.get_rect(topleft = (bullet2.x,  bullet2.y))
         bullet3.rect = bullet3.image.get_rect(topleft = (bullet3.x,  bullet3.y))
         bullet4.rect = bullet4.image.get_rect(topleft = (bullet4.x,  bullet4.y))
         bullet5.rect = bullet5.image.get_rect(topleft = (bullet5.x, bullet5.y))
         bullet6.rect = bullet6.image.get_rect(topleft = (bullet6.x, bullet6.y))
+        #rocket.rect = rocket.image.get_rect(topleft = (rocket.x,  rocket.y))
     elif bullets == 7:
         bullet_group.add(bullet7)
         bullet.move(screen)
@@ -603,6 +644,7 @@ while running:
         bullet5.move(screen)
         bullet6.move(screen)
         bullet7.move(screen)
+        rocket.move(screen)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
         bullet2.rect = bullet.image.get_rect(topleft = (bullet2.x,  bullet2.y))
         bullet3.rect = bullet3.image.get_rect(topleft = (bullet3.x,  bullet3.y))
@@ -610,6 +652,7 @@ while running:
         bullet5.rect = bullet5.image.get_rect(topleft = (bullet5.x, bullet5.y))
         bullet6.rect = bullet6.image.get_rect(topleft = (bullet6.x, bullet6.y))
         bullet7.rect = bullet7.image.get_rect(topleft = (bullet7.x,  bullet7.y))
+        #rocket.rect = rocket.image.get_rect(topleft = (rocket.x,  rocket.y))
     elif bullets == 8:
         bullet_group.add(bullet8)
         bullet.move(screen)
@@ -620,6 +663,7 @@ while running:
         bullet6.move(screen)
         bullet7.move(screen)
         bullet8.move(screen)
+        rocket.move(screen)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
         bullet2.rect = bullet.image.get_rect(topleft = (bullet2.x,  bullet2.y))
         bullet3.rect = bullet3.image.get_rect(topleft = (bullet3.x,  bullet3.y))
@@ -628,6 +672,7 @@ while running:
         bullet6.rect = bullet6.image.get_rect(topleft = (bullet6.x, bullet6.y))
         bullet7.rect = bullet7.image.get_rect(topleft = (bullet7.x,  bullet7.y))
         bullet8.rect = bullet8.image.get_rect(topleft = (bullet8.x,  bullet8.y))
+        #rocket.rect = rocket.image.get_rect(topleft = (rocket.x,  rocket.y))
     elif bullets == 9:
         bullet_group.add(bullet9)
         bullet.move(screen)
@@ -639,6 +684,7 @@ while running:
         bullet7.move(screen)
         bullet8.move(screen)
         bullet9.move(screen)
+        rocket.move(screen)
         bullet.rect = bullet.image.get_rect(topleft = (bullet.x,  bullet.y))
         bullet2.rect = bullet.image.get_rect(topleft = (bullet2.x,  bullet2.y))
         bullet3.rect = bullet3.image.get_rect(topleft = (bullet3.x,  bullet3.y))
@@ -648,8 +694,7 @@ while running:
         bullet7.rect = bullet7.image.get_rect(topleft = (bullet7.x,  bullet7.y))
         bullet8.rect = bullet8.image.get_rect(topleft = (bullet8.x,  bullet8.y))
         bullet9.rect = bullet9.image.get_rect(topleft = (bullet9.x,  bullet9.y))
-        
-
+        #rocket.rect = rocket.image.get_rect(topleft = (rocket.x,  rocket.y))
 
     if LIVES == 3:
         life1.draw(screen)
@@ -662,6 +707,15 @@ while running:
         life1.draw(screen)
     elif LIVES == 0:
         start.show = True
+        bullet.rect = bullet.image.get_rect(topleft = (-100,  -100))
+        bullet2.rect = bullet.image.get_rect(topleft = (-100,  -100))
+        bullet3.rect = bullet3.image.get_rect(topleft = (-100,  -100))
+        bullet4.rect = bullet4.image.get_rect(topleft = (-100,  -100))
+        bullet5.rect = bullet5.image.get_rect(topleft = (-100,  -100))
+        bullet6.rect = bullet6.image.get_rect(topleft = (-100,  -100))
+        bullet7.rect = bullet7.image.get_rect(topleft = (-100,  -100))
+        bullet8.rect = bullet8.image.get_rect(topleft = (-100,  -100))
+        bullet9.rect = bullet9.image.get_rect(topleft = (-100,  -100))
     
     
     # else: pygame.quit()
@@ -688,8 +742,9 @@ while running:
     secos += 1 / 60
     TOTAL_SECONDS += 1/60
     # print(secos)
-
+    rocket.draw(screen)
     pygame.display.update() # update the screen
+    print(rocket.rect)
 
 
 
