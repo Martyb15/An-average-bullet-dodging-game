@@ -11,6 +11,7 @@ green = (0,255,0)
 blue = (0,0,255)
 white = (255,255,255)
 
+pygame.init()
 running = True
 type = random.randint(1,4)
 WHITE = (255,255,255)
@@ -21,6 +22,8 @@ WIDTH = 750
 SPACE_HOLD = 14
 SLOW = True
 TOTAL_SECONDS = 0
+dif_font = pygame.font.Font('Roboto-Regular.ttf', 32)
+
 
 #Game Information + Images
 screen_size = screen_width, screen_height = HEIGHT, HEIGHT
@@ -384,18 +387,22 @@ def bullets_amount(sec):
 class Rocket(Bullet):
     def __init__(self):
         super().__init__(3)
+        self.direction = 0
         self.rspeed = 3
         self.name = "ROCKET"
         self.image = pygame.image.load(img_path3)
         self.rect = self.image.get_rect()
+        self.rotationAmount = 0
     
     def orientation(self, surface):
          dir_x = Triangle.active_player.x - self.x
          dir_y = Triangle.active_player.x - self.y
-         #dir = math.degrees(math.atan2(dir_y, dir_x))
-         a = math.sqrt(dir_y**2+dir_x**2)
-         our_angle = a*math.sin(dir_y/a)
-         self.image = pygame.transform.rotozoom(pygame.image.load(img_path3), 90-our_angle, 0.5)
+         movement = pygame.math.Vector2(dir_x,-1*dir_y)
+         up = pygame.math.Vector2(0,1)
+         direction = up.angle_to(movement)
+         # math.degrees(math.atan2(dir_x, dir_y))
+         self.rotationAmount = direction
+         self.image = pygame.transform.rotozoom(pygame.image.load(img_path3), direction, 0.5)
     
     def move(self, surface):
         dir_x = Triangle.active_player.x - self.x
@@ -416,7 +423,7 @@ class Rocket(Bullet):
         self.image = pygame.transform.rotate(self.image, 0 - self.direction)
 
 
-pygame.init()
+
 type = random.randint(1,4)
 
 player = Triangle()
@@ -561,6 +568,9 @@ while running:
     bar.draw(screen, SPACE_HOLD)
     start.draw(screen)
     player.draw(screen)
+    text = dif_font.render(str(rocket.rotationAmount), True, (0,0,0))
+    textRect = text.get_rect()
+    screen.blit(text, textRect)
     # if clicked[0]:
     #     print("Left Mouse Key is being pressed")
 
