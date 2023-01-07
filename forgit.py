@@ -353,6 +353,7 @@ class Bullet(pygame.sprite.Sprite):
 
     def reset_image_orientation(self):
         self.image = pygame.transform.rotate(self.image, 0 - self.direction)
+        self.orientation(screen)
         
     def temp(self):
         if self.x < 5 and self.y < 5:
@@ -395,14 +396,17 @@ class Rocket(Bullet):
         self.rotationAmount = 0
     
     def orientation(self, surface):
-         dir_x = Triangle.active_player.x - self.x
-         dir_y = Triangle.active_player.x - self.y
-         movement = pygame.math.Vector2(dir_x,-1*dir_y)
-         up = pygame.math.Vector2(0,1)
-         direction = up.angle_to(movement)
-         # math.degrees(math.atan2(dir_x, dir_y))
-         self.rotationAmount = direction
-         self.image = pygame.transform.rotozoom(pygame.image.load(img_path3), direction, 0.5)
+        dir_x = Triangle.active_player.x - self.x
+        dir_y = Triangle.active_player.x - self.y
+        movement = pygame.math.Vector2(dir_x,-1*dir_y)
+        up = pygame.math.Vector2(0,1)
+        center_x = Triangle.active_player.x - self.rect.center[0]
+        center_y = Triangle.active_player.y - self.rect.center[1]
+        mvmnt = pygame.math.Vector2(center_x, -1*center_y)
+        direction = up.angle_to(mvmnt)
+        # math.degrees(math.atan2(dir_x, dir_y))
+        self.rotationAmount = direction
+        self.image = pygame.transform.rotate(pygame.image.load(img_path3), direction)
     
     def move(self, surface):
         dir_x = Triangle.active_player.x - self.x
@@ -416,11 +420,13 @@ class Rocket(Bullet):
         print(self.rect.x,self.rect.y)
 
     def draw(self, surface):
-        self.rect = self.image.get_rect()
-        surface.blit(self.image, (self.x, self.y))
+        self.rect.x = self.x
+        self.rect.y = self.y
+        surface.blit(self.image, (self.rect.x, self.rect.y))
 
     def reset_image_orientation(self):
-        self.image = pygame.transform.rotate(self.image, 0 - self.direction)
+        self.x = 0
+        self.y = 0
 
 
 
@@ -555,7 +561,7 @@ while running:
     
     for bull in bullet_group:
         if player.checkCollision(player, bull) == True:
-            bull.orientation(screen)
+            bull.reset_image_orientation()
             LIVES -= 1
             hit = secos + .25
             # print(hit,"-----",secos)
